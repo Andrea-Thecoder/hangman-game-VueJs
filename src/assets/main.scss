@@ -1,0 +1,9 @@
+@use './style/mixin' as mix;
+@use './style/variable' as var;
+@import './base.scss';
+
+#app {
+  @include mix.backgroundSet(var.$bgUrl);
+  @include mix.displayFlex(space-between,stretch,column);
+  height: 100%;
+}

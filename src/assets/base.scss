@@ -1,0 +1,129 @@
+@use './style/mixin' as mix;
+@use './style/variable' as var;
+
+
+*{
+  box-sizing: border-box;
+  font-family: Arial, Helvetica, sans-serif;
+  color: var.$primaryTextColor;
+}
+
+:root {
+  height: 100%;
+}
+
+ul {
+  margin: 0;
+  padding: 0 !important;
+  list-style: none;
+}
+
+body {
+  max-width: 1920px;
+  height: 100%;
+  margin: 0 auto;
+}
+
+.wrapper{
+  max-width: 1920px;
+}
+
+.miniWrapper{
+  max-width: 1240px;
+}
+
+.bgCenterSetting {
+  @include mix.borderPrimaryType();
+  background: var.$primaryBgColor;
+}
+
+  
+.img {
+  margin: 0;
+  display: block;
+  border-radius: 10px;
+}
+
+.text-appear-writer {
+  color: var.$bloodTextColor;
+  font-style: italic;
+  font-weight: bold;
+  padding-top: 1em;
+}
+
+.mini-link{
+  color: var.$bloodTextColor;
+  font-size: 0.8rem;
+  padding: 0 0 1em;
+  margin: 0;
+  &:hover{
+      color: var.$bloodTextColorHover;
+      cursor:pointer;
+      text-decoration: underline;
+  }
+}
+
+.no-link-style{
+  text-decoration: none;
+  color:inherit;
+}
+
+
+//#region keyboard class
+
+.hg-theme-default{
+  background: var.$primaryBgColor !important;
+}
+
+.hg-theme-default .hg-button{
+  background: var.$primaryBgColor !important;
+
+}
+
+.simple-keyboard-container {
+  width: 100%;
+}
+
+.simple-keyboard {
+background-color: var.$primaryBgColor !important;; 
+border-radius: 10px;
+padding: 10px;
+}
+
+.simple-keyboard .hg-button {
+background-color: var.$primaryBgColor !important;
+color: var.$primaryTextColor;
+border: none; 
+border-radius: 5px; 
+}
+
+.simple-keyboard .hg-button.hg-enter {
+  background: var.$primaryBgColor !important;
+  color: var.$primaryTextColor !important;
+  border: none !important;
+  border-radius: 5px !important;
+  height: 60px !important; 
+  grid-row: span 2;
+}
+
+.hg-button-disabled {
+  background-color: gray !important;
+  pointer-events: none;
+  opacity: 0.6;
+}
+
+//#endregion keyboard class
+
+
+//#region effetto nebbia gsap class
+.fog-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.8) 0%, rgba(255, 255, 255, 0.4) 70%, rgba(0, 0, 0, 0.6) 100%);
+  opacity: 1;
+  pointer-events: none;
+}
+//#endregion effetto nebbia gsap class
