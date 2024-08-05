@@ -53,7 +53,6 @@ const handleSummaryView = ():void => {
 }
 
 const updateCursorPosition= (event:CustomEvent):void =>  {
-    console.log(event.detail.position.x,event.detail.position.y)
     //avremmo anche potuto usare un ciclo per fare questa cosa ma mi sembrava performance sprecata per 2 valori che resteranno sempre e solo 2.
     cursorPosition.x = event.detail.position.x;
     cursorPosition.y = event.detail.position.y;

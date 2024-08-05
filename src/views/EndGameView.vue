@@ -33,15 +33,11 @@ const updateTimer = (event:CustomEvent):void => {
 }
 
 const updateConsecutiveWord = (event:CustomEvent):void => {
-    console.log(event.detail.consecutiveWord,event.detail)
     summaryValue.consecutiveWord = event.detail.consecutiveWord
-    console.log(summaryValue.consecutiveWord)
 }
 
 const updateWord = (event:CustomEvent):void => {
     summaryValue.word = event.detail.word;
-    console.log(summaryValue.word)
-    console.log(summaryValue.consecutiveWord)
 }
 
 

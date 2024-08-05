@@ -11,11 +11,12 @@
     },
     "noEmit": false,
     "outDir": "./dist",
-    "declarationDir": "./dist/types", 
-    "moduleResolution": "Node16", 
+    "declarationDir": "./dist/types",
+    "moduleResolution": "node",
     "types": ["node"],
-    "module": "Node16",
-    "esModuleInterop": true,     
-    "skipLibCheck": true      
+    "module": "esnext",  // Assicurati che sia 'esnext'
+    "target": "es2020",  // 'es2020' va bene, ma 'esnext' è preferibile
+    "esModuleInterop": true,
+    "skipLibCheck": true
   }
 }

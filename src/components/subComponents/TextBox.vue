@@ -3,6 +3,7 @@ import { ref, onMounted, watch } from 'vue';
 import axios from 'axios';
 import { dispachTimeForVictory, maxError } from '@/configVariables';
 import gsap from 'gsap';
+import config from '../../config';
 import { useRouter} from 'vue-router';
 import type {Router} from 'vue-router';
 //noterete un settimeout differente rispetto a quello degli altri dispacher, questo perchè la nuova view verrà caricata (onMounted) dopo 5 sec, quindi non avrebbe mai intercettato i dispacher da 1 sec, per qeusto ho inserito 6 sec, ovvero: tempo per il caricamento nuova view + 1 sec (valore standard scelto da me per il passaggio disparcher).
@@ -82,7 +83,10 @@ const wordCheck= ():number[]=> {
 
 
 const callWord = async ():Promise<void>=>{
-    const baseUrl:string =`/api/word?lang=${props.lang}`
+    const apiUrl= config.apiUrl
+    console.log('API URL:', apiUrl)
+    const baseUrl:string =`${apiUrl}/word?lang=${props.lang}`;
+
     try {
         const response = await axios.get<string>(baseUrl);
         word.value= response.data[0].toLowerCase().trim();
@@ -138,7 +142,6 @@ const sendSummaryWord = ():void => {
 
 const sendSummaryConsecutiveWord = ():void => {
     setTimeout(() => {
-            console.log("che schifo", highConsecutiveWordScore.value)
             document.dispatchEvent(new CustomEvent('sendSummaryConsecutiveWord', {
             detail: { consecutiveWord: highConsecutiveWordScore.value },
             bubbles: true 
