@@ -56,15 +56,15 @@ const startGame= ():void => {
             <h3>L'impiccato</h3>
             <h5>Svela la parola per salvarti</h5>
         </div>
-        <div class="container form-group mt-5" v-if="!starterValue">
-            <label class="form-label" for="language">
+        <div class="container form-group mt-5 " v-if="!starterValue">
+            <label class="form-label " for="language">
                 Scegli la Lingua di gioco
             </label>
             <select 
                 v-model="selectedLang" 
                 @change="handleTouch"
                 :class="errorClassObj"
-                class="form-select form-select-sm bg-dark text-light"
+                class="form-select form-select-sm bg-dark text-light borderr"
                 name="language" id="language">
                 <option selected value="">-- Scegli una lingua --</option>
                 <option v-for="({data,language}) in languageArray" :key="language" :value="data">{{ language }}</option>
@@ -81,12 +81,15 @@ const startGame= ():void => {
 
 
 <style scoped lang="scss">
-
+@use '../assets/style/variable' as var;
 
 .title{
     text-align: center;
 }
 
+.borderr{
+    border: 1px solid var.$borderColor;
+}
 
 
 </style>
