@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { writerTimer } from '@/configVariables';
 import {ref, onMounted} from 'vue';
 import {useRoute} from 'vue-router';
 import type { RouteLocationNormalizedLoadedGeneric } from 'vue-router';
@@ -28,6 +29,7 @@ const props = defineProps({
     }
 })
 
+//testo da spacchettare, displaytext
 const writer = ():void => {
     const interval:ReturnType<typeof setInterval> = setInterval(() => {
         displayText.value += defeatText[countChar.value];
@@ -42,7 +44,7 @@ const writer = ():void => {
             }, 2500);
             clearInterval(interval);
         }
-    }, 100);
+    }, writerTimer);
 }
 
 const handleSummaryView = ():void => {
@@ -50,7 +52,7 @@ const handleSummaryView = ():void => {
 }
 
 onMounted(()=> {
-    writer();
+    displayText.value += writer();
 })
 
 

@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { writerTimer } from '@/configVariables';
 import { ref, onMounted, defineProps } from 'vue';
 import { useRouter } from 'vue-router';
 import type {Router} from 'vue-router';
@@ -29,7 +30,7 @@ const writer = ():void => {
                 router.push({ name: 'game', params: {language: props.languages } }); //ci sposta nella view del gioco, passando il parametro per far partire la chiamata axios.
             }, 3000);
         }
-    }, 100);
+    }, writerTimer);
 }
 
 onMounted(() => {

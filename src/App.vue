@@ -146,8 +146,15 @@ onUnmounted (()=> {
 
 header,footer {
     @include mix.displayFlex();
-    @include mix.borderPrimaryType();
     margin: 0 auto;
+}
+
+header {
+    margin-top: 0.5em;
+}
+
+footer {
+    margin-bottom: 0.5em;
 }
 
 main{

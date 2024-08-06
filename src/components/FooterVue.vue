@@ -31,7 +31,7 @@ const handlePopUp=(index:number):void => {
       popUpTimeOut.value = setTimeout(() => {
         chisiamoPopUp.value = false;
         popUpTimeOut.value = null;
-      }, 5000);
+      }, 10000);
         
     break;
     default: return;
@@ -53,8 +53,8 @@ const confirmReturn = ():void => {
     router.push({ name: 'home' });
 }
 
-const divSizeObj:ComputedRef<{'mini-pop-up' : boolean}> = computed (() => ({
-  'mini-pop-up' : returnHomeToggle.value
+const divSizeObj:ComputedRef<{'gap' : boolean}> = computed (() => ({
+  'gap' : !returnHomeToggle.value
 }))
 
 watch (()=>route.path, (newPath:string) =>{
@@ -88,7 +88,7 @@ watch (()=>route.path, (newPath:string) =>{
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="footerbarNav">
-      <ul class="navbar-nav">
+      <ul class="navbar-nav" :class="divSizeObj">
         <li class="nav-item" v-if="returnHomeToggle">
           <router-link class="nav-link mb-0 pointer" :to="{name: 'home'}" @click.native.prevent="confirmReturn">Torna alla Home</router-link>
         </li>
@@ -106,10 +106,10 @@ watch (()=>route.path, (newPath:string) =>{
         </li>
         <li class="nav-item">
           <p class="nav-link mb-0 pointer" @click="handlePopUp(2)">Chi siamo?</p>
-            <div class="pop-up bgCenterSetting container" :class="divSizeObj"
+            <div class="pop-up bgCenterSetting container"
             v-if="chisiamoPopUp"
             @click="handleClosePopUp">
-              <p>Created by Andrea - TheCoder 07/2024.</p>
+              <p class="right-align">Created by Andrea - TheCoder 07/2024.</p>
             </div>
         </li>
       </ul>
@@ -117,7 +117,6 @@ watch (()=>route.path, (newPath:string) =>{
   </div>
   <div v-if="comegiocarePopUp || chisiamoPopUp" class="overlay" @click="handleClosePopUp"></div>
 </nav>
-
 </template>
 
 <style scoped lang="scss">
@@ -125,6 +124,7 @@ watch (()=>route.path, (newPath:string) =>{
 @use '../assets/style/variable'as var;
 
 nav {
+  @include mix.borderPrimaryType();
   li,a,p {
     color: var.$primaryTextColor !important;
     cursor:default;
@@ -139,15 +139,20 @@ nav {
     position: absolute;
     left: 0;
     bottom: 100%;
+    width: 100%;
     z-index: 10000;
-    &.mini-pop-up{
-      width: 50%;
-      left: 50%;
-    }
     p{
       padding: 0.3em;
-    }
+    } 
   }
+}
+
+.right-align{
+        text-align: right;
+      }
+
+.gap {
+  gap: 8em;
 }
 
 .overlay {

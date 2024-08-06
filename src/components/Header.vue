@@ -26,7 +26,7 @@ watch (()=>route.path, (newPath:string) =>{
 <template>
 
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark bg-opacity-50" v-if="!endGameDefeat">
-  <div  class="container-fluid">
+  <div class="container-fluid">
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
@@ -61,6 +61,10 @@ li,a,p {
   .nav-link:hover {
     color:var.$hoverTextColor !important;
   }
+}
+
+nav {
+  @include mix.borderPrimaryType();
 }
 
 div.container-fluid{

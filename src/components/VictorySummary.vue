@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { writerTimer } from '@/configVariables';
 import type { Imouse } from '@/types/interfaces';
 import {ref, onUnmounted, onMounted, reactive } from 'vue';
 
@@ -45,7 +46,7 @@ const writer = ():void => {
             }, 2500);
             clearInterval(interval);
         }
-    }, 100);
+    }, writerTimer);
 }
 
 const handleSummaryView = ():void => {
