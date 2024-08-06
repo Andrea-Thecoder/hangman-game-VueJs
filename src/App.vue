@@ -114,11 +114,11 @@ onMounted(() => {
         fogEffect();
         elementAppear();   
     }
-    document.addEventListener('mousemove', trackMouse);
+    document.addEventListener('mousemove', trackMouse as EventListener);
 });
 
 onUnmounted (()=> {
-    document.removeEventListener('mousemove',trackMouse)
+    document.removeEventListener('mousemove',trackMouse as EventListener)
 
 })
 

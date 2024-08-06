@@ -55,7 +55,7 @@ const animateSpan = (index: number):void => {
           onComplete: () => {
           gsap.to(spanElement, { 
             opacity: 1,
-            borderColor: '#d3d3d3'  //valore hex preso da $primaryTextColor in _variables scss
+            borderColor: '#2e2e2e'  //valore hex preso da $primaryTextColor in _variables scss
             });
             } 
         }
@@ -84,7 +84,7 @@ const wordCheck= ():number[]=> {
 
 const callWord = async ():Promise<void>=>{
     const apiUrl= config.apiUrl
-    console.log('API URL:', apiUrl)
+    //console.log('API URL:', apiUrl)
     const baseUrl:string =`${apiUrl}/word?lang=${props.lang}`;
 
     try {
@@ -236,19 +236,22 @@ ul {
     @include mix.displayFlex();
     gap: 1em;
     li span{
-        padding: 0.5em 0.5em 0.2em;
+        min-width: 1.5em;
+        padding: 0.5em 0.5em 0.3em;
         font-weight: bold;
         font-size: 24px;
         border-radius: 10px;
         transition: transform 0.5s ease;
         transition: border-color 0.5s ease;
+        &.spanBorder{
+            border: 2px solid var.$borderColor;
+        }
         &.hidden{
             opacity: 0;
         }
     }
 }
 
-.spanBorder{
-    border: 2px solid var.$primaryTextColor;
-}
+//primaryTextColor
+
 </style>

@@ -21,6 +21,7 @@ const redirectEndGameCondition =(event:CustomEvent):void => {
         case "defeat":
         router.push({name: 'summary' ,params: {condition: "defeat"}})
         break;
+        default: return;
         }
     
 }

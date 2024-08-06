@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { regexSummary } from '@/configVariables';
-import {ref, watch} from 'vue';
+import {computed, ComputedRef, ref, watch} from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import type {RouteLocationNormalizedLoadedGeneric, Router} from 'vue-router';
 
@@ -53,6 +53,9 @@ const confirmReturn = ():void => {
     router.push({ name: 'home' });
 }
 
+const divSizeObj:ComputedRef<{'mini-pop-up' : boolean}> = computed (() => ({
+  'mini-pop-up' : returnHomeToggle.value
+}))
 
 watch (()=>route.path, (newPath:string) =>{
   if(newPath ==="/") {
@@ -103,7 +106,7 @@ watch (()=>route.path, (newPath:string) =>{
         </li>
         <li class="nav-item">
           <p class="nav-link mb-0 pointer" @click="handlePopUp(2)">Chi siamo?</p>
-            <div class="pop-up mini-pop-up bgCenterSetting container" 
+            <div class="pop-up bgCenterSetting container" :class="divSizeObj"
             v-if="chisiamoPopUp"
             @click="handleClosePopUp">
               <p>Created by Andrea - TheCoder 07/2024.</p>

@@ -8,6 +8,8 @@ const config = {
       baseUrl: '/hangman-game-VueJs/'
     }
   };
+
+  type ConfigKeys = keyof typeof config;
   
-  const env = import.meta.env.MODE || 'development'; // Usa `development` come predefinito
+  const env = import.meta.env.MODE  as ConfigKeys || 'development';
   export default config[env];
