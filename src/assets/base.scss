@@ -70,6 +70,14 @@ body {
 }
 
 
+
+@media (max-width: var.$maxWidthResp) {
+  *{
+    font-size: 12px !important;
+  }
+}
+
+
 //#region keyboard class
 
 .hg-theme-default{
@@ -112,6 +120,14 @@ border-radius: 5px;
   pointer-events: none;
   opacity: 0.6;
 }
+
+@media (max-width: var.$maxWidthResp) {
+  div.hg-button {
+    width: 24px !important;
+    height: 24px !important;
+  }
+}
+
 
 //#endregion keyboard class
 

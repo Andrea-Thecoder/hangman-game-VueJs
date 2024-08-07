@@ -165,12 +165,16 @@ nav {
   z-index: 9999;  
 }
 
-
-
-
-
 div.container-fluid{
   @include mix.displayFlex();
    gap: 3em;
 }
+
+@media (max-width: var.$maxWidthResp) {
+  ul {
+    flex-direction: row;
+    gap: 1em;
+  }
+}
+
 </style>

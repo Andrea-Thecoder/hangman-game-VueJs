@@ -55,6 +55,7 @@ watch (()=>route.path, (newPath:string) =>{
 <style scoped lang="scss">
 @use '../assets/style/mixin' as mix;
 @use '../assets/style/variable'as var;
+
 li,a,p {
   color: var.$primaryTextColor !important;
   cursor: default;
@@ -70,6 +71,18 @@ nav {
 div.container-fluid{
   @include mix.displayFlex();
    gap: 3em;
+}
+
+.custom-toggler-icon {
+  width: 20px; /* Imposta la larghezza desiderata */
+  height: 20px; /* Imposta l'altezza desiderata */
+}
+
+@media (max-width:var.$maxWidthResp) {
+  ul {
+    flex-direction: row;
+    gap: 1em;
+  }
 }
 
 </style>

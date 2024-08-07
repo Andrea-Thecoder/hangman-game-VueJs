@@ -1,17 +1,19 @@
 
+//Media Query Value :
+$maxWidthResp: 980px;
 
-//background url
+//Background url
 $bgUrl: "https://static.vecteezy.com/ti/foto-gratuito/p2/36103059-ai-generato-gotico-cimitero-a-notte-con-pieno-luna-3d-rendering-ai-generato-gratuito-foto.jpg";
 
 
-//color:
+//Color:
 $primaryBgColor:linear-gradient(145deg, rgba(0, 0, 0, 0.55), rgba(34, 34, 34, 0.75));
-//$primaryBgColor: rgba(211, 211, 211, 0.437);
 $primaryTextColor: #d3d3d3;
-$borderColor: #2e2e2e;
 $boxShadowColor: rgba(0, 0, 0, 0.7);
-
+$borderColor: #2e2e2e;
 $hoverTextColor:#ffd700;
-
 $bloodTextColor:#C8102E;
 $bloodTextColorHover: #E03C50;
+
+//Other:
+$borderRadius: 10px;

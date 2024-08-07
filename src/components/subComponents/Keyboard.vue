@@ -82,7 +82,7 @@ onMounted(() => {
       ]
     },
     display: {
-      '{bksp}': 'Backspace',
+      '{bksp}': 'Canc',
       '{enter}': 'Enter',
       '{shift}': 'Shift',
     },
@@ -131,5 +131,13 @@ input {
   text-align: center;
   pointer-events: none;
 }
+
+@media (max-width: var.$maxWidthResp) {
+  .customWidth{
+    width: 300px;
+  }
+}
+
+
 
 </style>
