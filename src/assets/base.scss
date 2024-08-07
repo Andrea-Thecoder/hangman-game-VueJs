@@ -8,21 +8,17 @@
   color: var.$primaryTextColor;
 }
 
-:root {
-  /* height: 100%; */
+body {
+  @include mix.backgroundSet(var.$bgUrl);
+  max-width: 1920px;
+  height: 100vh;
+  margin: 0 auto;
 }
 
 ul {
   margin: 0;
   padding: 0 !important;
   list-style: none;
-}
-
-body {
-  @include mix.backgroundSet(var.$bgUrl);
-  max-width: 1920px;
-  height: 100vh;
-  margin: 0 auto;
 }
 
 .wrapper{
@@ -68,7 +64,6 @@ body {
   text-decoration: none;
   color:inherit;
 }
-
 
 
 @media (max-width: var.$maxWidthResp) {

@@ -136,8 +136,4 @@ div.container {
     }
 }
 
-@media (max-width: var.$maxWidthResp){
-   
-}
-
 </style>

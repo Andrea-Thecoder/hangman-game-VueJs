@@ -52,7 +52,7 @@ const handleSummaryView = ():void => {
 }
 
 onMounted(()=> {
-    displayText.value += writer();
+    writer();
 })
 
 
@@ -115,9 +115,6 @@ onMounted(()=> {
 @use '../assets/style/mixin' as mix;
 @use '../assets/style/variable' as var;
 
-
-
-
 div.container {
     @include mix.displayFlex(center,center,column);
     p{
@@ -125,9 +122,6 @@ div.container {
     }
 }
 
-@media (max-width: var.$maxWidthResp){
-   
-}
 
 
 
