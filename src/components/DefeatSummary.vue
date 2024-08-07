@@ -69,7 +69,11 @@ onMounted(()=> {
             <h4 class="text-appear-writer">Game Over</h4>
         </div>
         <div>
-            <img src="../assets/img/defeat-webp.webp" alt="impiccato-sconfitta" class="img">
+            <picture>
+                <source srcset="../assets/img/defeat-webp.webp" media="(min-width:981px)">
+                <source srcset="../assets/img/defeat-mobile-webp.webp" media="(max-width:980px)">
+                <img src="../assets/img/defeat-webp.webp" alt="impiccato-sconfitta" class="img">
+            </picture>
         </div>
         <template v-if="!defeatSummaryView">
             <div>
@@ -121,6 +125,9 @@ div.container {
     }
 }
 
+@media (max-width: var.$maxWidthResp){
+   
+}
 
 
 

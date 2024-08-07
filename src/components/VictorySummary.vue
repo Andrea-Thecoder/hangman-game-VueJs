@@ -77,7 +77,11 @@ onUnmounted(()=> {
             <h4 class="text-appear-writer">Vittoria</h4>
         </div>
         <div>
-            <img src="../assets/img/victory-webp.webp" alt="vittoria-fuga" class="img">
+            <picture>
+                <source srcset="../assets/img/victory-webp.webp" media="(min-width:981px)">
+                <source srcset="../assets/img/victory-mobile-webp.webp" media="(max-width:980px)">
+                <img src="../assets/img/victory-webp.webp" alt="vittoria-fuga" class="img">
+            </picture>
         </div>
     </div>
     <template v-if="!victorySummaryView">
@@ -130,6 +134,10 @@ div.container {
         }
         
     }
+}
+
+@media (max-width: var.$maxWidthResp){
+   
 }
 
 </style>
