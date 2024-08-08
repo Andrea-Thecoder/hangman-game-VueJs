@@ -31,7 +31,7 @@ const handlePopUp=(index:number):void => {
       popUpTimeOut.value = setTimeout(() => {
         chisiamoPopUp.value = false;
         popUpTimeOut.value = null;
-      }, 10000);
+      }, 25000);
         
     break;
     default: return;

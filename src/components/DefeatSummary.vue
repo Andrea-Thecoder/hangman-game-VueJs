@@ -1,15 +1,13 @@
 <script setup lang="ts">
 import { writerTimer } from '@/configVariables';
-import {ref, onMounted} from 'vue';
+import {ref, onMounted, watch} from 'vue';
 import {useRoute} from 'vue-router';
 import type { RouteLocationNormalizedLoadedGeneric } from 'vue-router';
-
+import { dynamicText } from '@/composables/DynamicText';
 const route:RouteLocationNormalizedLoadedGeneric = useRoute();
 
 const defeatText: string = "Nebbie oscure avvolgono il tuo fato, l'ultimo respiro è ormai sfuggito e andato. Nel buio eterno sei ormai confinato,dalle tenebre il tuo nome è cancellato..."
 
-const displayText = ref<string>('');
-const countChar = ref<number>(0);
 
 const newGameRoute=ref<string>(route.meta.oldPath as string);
 const language = ref<string>(newGameRoute.value.split('/')[2]);
@@ -29,30 +27,22 @@ const props = defineProps({
     }
 })
 
-//testo da spacchettare, displaytext
-const writer = ():void => {
-    const interval:ReturnType<typeof setInterval> = setInterval(() => {
-        displayText.value += defeatText[countChar.value];
-        if (defeatText[countChar.value] =="," || 
-           (defeatText[countChar.value] =="." && defeatText[countChar.value+1] !=".")
-          ) 
-            displayText.value += "<br> <br>"
-        countChar.value++;
-        if(countChar.value === defeatText.length){
-            setTimeout(() => {
-                clickAppear.value = true;
-            }, 2500);
-            clearInterval(interval);
-        }
-    }, writerTimer);
-}
-
+const {displayText, endLoading, generateText} = dynamicText(); 
 const handleSummaryView = ():void => {
+
     defeatSummaryView.value = true
 }
 
+watch(()=>endLoading.value, (newValue:boolean)=>{
+    if(newValue){
+        setTimeout(() => {
+            clickAppear.value = true;
+        }, 2500);
+    }
+})
+
 onMounted(()=> {
-    writer();
+    generateText(defeatText);
 })
 
 

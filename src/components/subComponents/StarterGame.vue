@@ -1,10 +1,12 @@
 <script setup lang="ts">
-import { writerTimer } from '@/configVariables';
-import { ref, onMounted, defineProps } from 'vue';
+import { ref, onMounted, defineProps , watch } from 'vue';
 import { useRouter } from 'vue-router';
 import type {Router} from 'vue-router';
+import { dynamicText } from '@/composables/DynamicText';
+
+
 const starterText:string = "Per me si va nella città dolente, per me si va nell'eterno dolore, per me si va tra la perduta gente. Lasciate ogni speranza voi ch'entrate ...";
-const displayText = ref<String>("");
+
 const countChar = ref<number>(0);
 const props = defineProps({
     languages:{
@@ -14,9 +16,11 @@ const props = defineProps({
     }
 })
 const router:Router = useRouter()
+const {displayText, endLoading, generateText} = dynamicText(); 
 
-//funzione che permette di scrivere una lettera alla volta grazie al set interval ed al fatto che una stringa non è altro che un array di char.
-const writer = ():void => {
+
+//funzione che permette di scrivere una lettera alla volta grazie al set interval ed al fatto che una stringa non è altro che un array di char. La funzione è obsoleta, l'ho lasciata solo per farvi vedere come l'avevo inizialmente realizzata.
+/* const writer = ():void => {
     const interval:ReturnType<typeof setInterval> = setInterval(() => {
         displayText.value += starterText[countChar.value];
         if (starterText[countChar.value] =="," || 
@@ -31,10 +35,19 @@ const writer = ():void => {
             }, 3000);
         }
     }, writerTimer);
-}
+} */
+
+watch(()=>endLoading.value, (newValue:boolean)=> {
+    if(newValue){
+        setTimeout(() => {
+            router.push({ name: 'game', params: {language: props.languages } }); //ci sposta nella view del gioco, passando il parametro per far partire la chiamata axios.
+        }, 3000);
+    }
+})
 
 onMounted(() => {
-    writer();
+    //writer();
+    generateText(starterText);
 });
 
 </script>

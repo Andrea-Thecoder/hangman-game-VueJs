@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import { writerTimer } from '@/configVariables';
 import type { Imouse } from '@/types/interfaces';
-import {ref, onUnmounted, onMounted, reactive } from 'vue';
+import {ref, onUnmounted, onMounted, reactive, watch } from 'vue';
+import { dynamicText } from '@/composables/DynamicText';
 
 const victoryText:string = "Nelle ombre del cimitero tra lapidi e dolore, Un condannato scappa dal patibolo, sfuggendo al suo terrore. Con il cuore che batte tra nebbie e tetri bagliori, Corre lontano, lontano dagli esecutori..."
 
@@ -24,43 +25,37 @@ const props = defineProps({
     }
 })
 
-const displayText = ref<string>("");
-const countChar = ref<number>(0);
+const {displayText,endLoading,generateText} = dynamicText();
+
 const clickAppear = ref<boolean>(false);
 const victorySummaryView = ref<boolean>(false);
 const cursorPosition = reactive<Imouse>({
     x:0,y:0
-})
+});
 
-const writer = ():void => {
-    const interval:ReturnType<typeof setInterval> = setInterval(() => {
-        displayText.value += victoryText[countChar.value];
-        if (victoryText[countChar.value] =="," || 
-           (victoryText[countChar.value] =="." && victoryText[countChar.value+1] !=".")
-          ) 
-            displayText.value += "<br> <br>"
-        countChar.value++;
-        if(countChar.value === victoryText.length){
-            setTimeout(() => {
-                clickAppear.value = true;
-            }, 2500);
-            clearInterval(interval);
-        }
-    }, writerTimer);
-}
 
 const handleSummaryView = ():void => {
     victorySummaryView.value = true
 }
 
 const updateCursorPosition= (event:CustomEvent):void =>  {
-    //avremmo anche potuto usare un ciclo per fare questa cosa ma mi sembrava performance sprecata per 2 valori che resteranno sempre e solo 2.
+    //avremmo anche potuto usare un ciclo per fare questa operazione ma mi sembrava performance sprecata per 2 valori che resteranno sempre e solo 2.
     cursorPosition.x = event.detail.position.x;
     cursorPosition.y = event.detail.position.y;
 }
 
+watch(()=>endLoading.value , (newValue:boolean)=> {
+    if(newValue){
+        setTimeout(() => {
+            clickAppear.value = true;
+        }, 2500);
+    }
+})
+
+
 onMounted(() => {
-    writer();
+    //writer();
+    generateText(victoryText);
     document.addEventListener('sendSummaryCursorPosition',updateCursorPosition as EventListener)
 })
 
