@@ -1,12 +1,19 @@
 <script setup lang="ts">
 import { ref, onMounted, watch } from 'vue';
 import axios from 'axios';
-import { dispachTimeForVictory, maxError } from '@/configVariables';
+import { maxError } from '@/configVariables';
 import gsap from 'gsap';
 import config from '../../config';
 import { useRouter} from 'vue-router';
 import type {Router} from 'vue-router';
+import { SendParameter } from '@/composables/SummaryParameter';
+import { Player } from '@/composables/Player';
 //noterete un settimeout differente rispetto a quello degli altri dispacher, questo perchè la nuova view verrà caricata (onMounted) dopo 5 sec, quindi non avrebbe mai intercettato i dispacher da 1 sec, per qeusto ho inserito 6 sec, ovvero: tempo per il caricamento nuova view + 1 sec (valore standard scelto da me per il passaggio disparcher).
+
+const {errorCount, consecutiveWordScore, summaryWord,
+       incrementError,updateConsecutiveWord, setScore} = SendParameter();
+
+const {condition} = Player();
 
 const spanWords = ref<HTMLElement[] | null> (null); // ref necessario per far funzionare l'animazion , targhetta i span.
 
@@ -16,11 +23,7 @@ const wordArray = ref<string[]>([]); // carica l'array di char della parola word
 const indexCounter = ref<number[]>([]); //tiene traccia della posizione (index) delle lettere svelate con successo da wordArray.
 const prevIndexCounter = ref<number[]>([]); //necessario per tenere traccia di chi NON deve lampeggiare
 
-const error = ref<boolean>(false); //booleano per attivare l'invio dell'errore al componente.
-const errorCount = ref<number>(0); //contatore di errori, necessario per far triggerare la condizione di fine gioco, sconfitta.
-
-const highConsecutiveWordScore = ref<number>(0); //contatore di quante lettere consecutive sono state trovate.
-const provisoryConsecutiveWordScore = ref<number>(0);  // contatore per confrontare con la variabile HightConsecutiveWordScore, in caso la supera quest'ultima variabile verrà aggiornata con i lvalore del provisoryConsecutiveWordScore
+const provisoryConsecutiveWordScore = ref<number>(0);  // contatore per confrontare con la variabile 
 
 const endGameCounter= ref<number>(0); // se questo valore è identico alla wordArray allora significa che la parola è stata svelata e si può procedere con la condizione di vittoria.
 
@@ -39,21 +42,21 @@ const props = defineProps({
 
 const animateSpan = (index: number):void => {
     if (!spanWords.value) return;
-  const spanElement = spanWords.value[index];
+    const spanElement = spanWords.value[index];
     gsap.timeline()
-      .fromTo(spanElement,
+        .fromTo(spanElement,
         { opacity: 0, rotationY: 0 },
         { opacity: 1, rotationY: 360, duration: 0.5, ease: "power1.inOut" }
-      )
-      .set(spanElement, { borderColor: "#ffd700" }) //valore hex preso da $hoverTextColor in _variables scss
-      .to(spanElement,
+        )
+        .set(spanElement, { borderColor: "#ffd700" }) //valore hex preso da $hoverTextColor in _variables scss
+        .to(spanElement,
         { opacity: 0, 
-          duration: 1, 
-          ease: "power1.inOut",
-          repeat: 2, 
-          yoyo: true, 
-          onComplete: () => {
-          gsap.to(spanElement, { 
+            duration: 1, 
+            ease: "power1.inOut",
+            repeat: 2, 
+            yoyo: true, 
+            onComplete: () => {
+            gsap.to(spanElement, { 
             opacity: 1,
             borderColor: '#2e2e2e'  //valore hex preso da $primaryTextColor in _variables scss
             });
@@ -63,7 +66,7 @@ const animateSpan = (index: number):void => {
 };
 
 const wordCheck= ():number[]=> {
-    if(props.playerWord ==="" || props.playerWord === null || props.playerWord === " " ) return [];
+    if(!props.playerWord) return [];
     let indexArray:number[]=[];
 
     //vi lascio 2 metodi che ho trovato per controllare le lettere:
@@ -77,7 +80,6 @@ const wordCheck= ():number[]=> {
             acc.push(index);
         return acc; //vitale per far toranre l'accumultore per il prossimo elemento ,senza di esso non terrebbe traccia dell'avanzare dell'accumulo.
     },[])
-
     return indexArray;
 }
 
@@ -91,7 +93,8 @@ const callWord = async ():Promise<void>=>{
         const response = await axios.get<string>(baseUrl);
         word.value= response.data[0].toLowerCase().trim();
         wordArray.value=word.value.split("");
-        highConsecutiveWordScore.value = wordArray.value.length; //imposto il valore delle lettere consecutive al massimo possibile, cosi che, se l'utente non sbaglia mai avrà questo valore come risultato.
+        summaryWord.value = word.value;
+        consecutiveWordScore.value = wordArray.value.length; //imposto il valore delle lettere consecutive al massimo possibile, cosi che, se l'utente non sbaglia mai fin dall'inizio, avrà questo valore come risultato (ovvero il massimo possibile).
     } catch(error){
         console.log("Warning error detected:", error)
         setTimeout(() => {
@@ -116,80 +119,26 @@ watch(()=>props.playerWord,(element)=>{
     let wordCheckLength:number = wordCheck().length; //richiedo la length dell'output della funzione.
     //se è 0 significa che non è stata trovata nessuna lettera dall'utente.
     if(wordCheckLength === 0) { 
-        generateError();
-        updateConsecutiveWord();
-        getScore(-100,wordArray.value.length);
-        error.value=false;
+        incrementError();
+        provisoryConsecutiveWordScore.value = updateConsecutiveWord(provisoryConsecutiveWordScore.value,wordArray.value.length);
+        setScore(-100,wordArray.value.length);
         checkEndGame();
         return;
     }
     //Altrimenti, significa che length non è 0 quindi ha trovato qualcosa ed inizio la sequenza di aggiornamento delle meccaniche del gioco..
     endGameCounter.value+=wordCheckLength;
     provisoryConsecutiveWordScore.value++;
-    getScore(80,wordArray.value.length,wordCheckLength);
+    setScore(80,wordArray.value.length,wordCheckLength);
     indexCounter.value=[...indexCounter.value,...wordCheck()]; 
     checkEndGame();  
 })
 
-const sendSummaryWord = ():void => {
-    setTimeout(() => {
-        document.dispatchEvent(new CustomEvent('sendSummaryWord', {
-        detail: { word: word.value },
-        bubbles: true 
-        }));
-    }, dispachTimeForVictory);
-}
-
-const sendSummaryConsecutiveWord = ():void => {
-    setTimeout(() => {
-            document.dispatchEvent(new CustomEvent('sendSummaryConsecutiveWord', {
-            detail: { consecutiveWord: highConsecutiveWordScore.value },
-            bubbles: true 
-            }));
-        }, dispachTimeForVictory);
-}
-
-const getScore= (score:number,wordLength:number,moltiplierWord:number=1):void => {
-    //La formula è creata tenendo in considerazione che più la parola è lunga più la difficoltà è alta, quinndi un bonus moltiplicatore. Un altro moltiplicatore è dato da quante lettere ha indovinato, ovviamente più lettere si indovinano con una sola scelta maggior punti vanno dati. Quest'ultima è impostata come parametro opzionale in modo che nel momento in cui si va in errore il moltiplicatore è x1 . math.max serve a garantire che se uscisse una parola lunga meno di 3 caratteri (molto improbabile ma non posso escluderlo) allora il moltiplicatore sia 1.
-    let totalScore:number =  Math.round((score * moltiplierWord) * Math.max(1,wordLength / 3));
-    document.dispatchEvent(new CustomEvent('score', {
-    detail: { score: totalScore },
-    bubbles: true 
-  }));
-    
-}
-
-const generateError = ():void => {
-    error.value=true;
-    errorCount.value++;
-    document.dispatchEvent(new CustomEvent('doError', {
-    detail: { error: error },
-    bubbles: true 
-  }));
-}
-
 const checkEndGame = ():void => {
-    if (wordArray.value.length == endGameCounter.value || errorCount.value == maxError ) {
-            sendSummaryWord(); 
-            sendSummaryConsecutiveWord();
-            if(wordArray.value.length == endGameCounter.value){
-                document.dispatchEvent(new CustomEvent('endGameCondition', {
-                detail: { condition: "victory" },
-                bubbles: true 
-                }));
-            }
+    if (wordArray.value.length == endGameCounter.value || errorCount.value === maxError ) {
+            updateConsecutiveWord(provisoryConsecutiveWordScore.value);
+            if(wordArray.value.length == endGameCounter.value)
+                condition.value = 'victory';   
     }
-}
-
-const updateConsecutiveWord = ():void => {
-    //questa condizione è necessaria altrimenti non potrà mai calcolare la quantità di  lettere consecutive indovinate i nquanto di base il contatore è settato pari alal length della parola, in modo far si che se l'utente non sbagli mai possa aver il giusto risultato. 
-    if (highConsecutiveWordScore.value == wordArray.value.length)  
-        highConsecutiveWordScore.value = 0;
-
-    if (provisoryConsecutiveWordScore.value > highConsecutiveWordScore.value) 
-        highConsecutiveWordScore.value = provisoryConsecutiveWordScore.value;
-
-    provisoryConsecutiveWordScore.value=0;
 }
 
 onMounted(()=> {
@@ -197,7 +146,7 @@ onMounted(()=> {
     //scommentare (ricorda di scommentare anche lang sulla gameview) se il server dove facciamo la request non funziona!
     /* word.value = "grandetest"
     wordArray.value=word.value.split("");
-    highConsecutiveWordScore.value = wordArray.value.length;
+    consecutiveWordScore.value = wordArray.value.length;
     */
 })
 

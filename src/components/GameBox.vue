@@ -1,9 +1,7 @@
 <script setup lang="ts">
 import TextBox from './subComponents/TextBox.vue'
 import Keyboard from '@/components/subComponents/Keyboard.vue';
-
-
-import {ref,onMounted,watch} from 'vue'
+import {ref} from 'vue'
 
 const playerWord=ref<string>("");
 const props = defineProps({

@@ -1,5 +1,7 @@
 import { ref } from 'vue';
 import { writerTimer } from '@/configVariables';
+
+
 export function dynamicText() {
   const displayText = ref<string>('');
   const endLoading = ref<boolean>(false);

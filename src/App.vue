@@ -5,6 +5,7 @@ import FooterVue from './components/FooterVue.vue';
 import { RouterView, useRoute} from 'vue-router';
 import gsap from 'gsap';
 import { regexSummary } from '@/configVariables';
+import { Player } from './composables/Player';
 import type { Imouse } from '@/types/interfaces';
 import type {RouteLocationNormalizedLoadedGeneric} from 'vue-router';
 
@@ -25,13 +26,11 @@ const prevMousePosition = reactive<Imouse>({
     x:0, y:0
 })
 
-const totalMouseDistance = reactive<Imouse>({
-    x:0, y:0
-})
+const {totalMouseDistance} = Player();
 
 /* logica del tracking: Dobbiamo tenere traccia di quanti px si muove il mouse ogni olta che l'utente lo spsota. 
 per fare ciò come prima cosa inizialziziamo due oggetti reattivi per tenere traccia del totale del movimento asse X e Y e di quanto si è mosso lo "step" precedente a quello che si muoverà. Quest'ultima ci servirà per calcolare il delta ovvero la differenza tra quanto si è mosso ora e quanto si era mosso prima per trovare il valore assoluto (che deve essere sempre positivo per i nostri fini) esso andrà aggiunto nella pool del totale mosso. Infine i campi che tenevano tracica dello "step" precedente dello spostamento vengono aggiornati inserendo il valore attuale dello spsotamento. */
-const trackMouse= (event:MouseEvent):void => {
+const trackMouse = (event:MouseEvent):void => {
 
     //calcol odel delta per vedere quanti px ha fatto in questo step di movimento
     const newX:number = event.clientX - prevMousePosition.x;
@@ -44,6 +43,8 @@ const trackMouse= (event:MouseEvent):void => {
     //aggiornamento dell'oggetto reattivo che tiene traccia dello "step" precedente di movimento.
     prevMousePosition.x = event.clientX;
     prevMousePosition.y = event.clientY
+    console.log(totalMouseDistance.x,totalMouseDistance.y)
+
 }
 
 const fogEffect = ():void => {
@@ -92,18 +93,19 @@ watch(()=> route.path, (newPath:string)=>{
         totalMouseDistance.y = 0;
         prevMousePosition.x = 0;
         prevMousePosition.y = 0;
+        console.log(totalMouseDistance.x,totalMouseDistance.y)
         document.addEventListener('mousemove', trackMouse);
 
     }
     //il tracciamento cessa quando si raggiunge la schermata di fine gioco.
     if(regexSummary.test(newPath)){ 
         document.removeEventListener('mousemove',trackMouse)
-        setTimeout(() => {
+         /* setTimeout(() => {
             document.dispatchEvent(new CustomEvent('sendSummaryCursorPosition', {
             detail: { position: totalMouseDistance },
             bubbles: true 
             }));
-        }, 1000);
+        }, 1000); */
         
     }
 } )
@@ -114,11 +116,11 @@ onMounted(() => {
         fogEffect();
         elementAppear();   
     }
-    document.addEventListener('mousemove', trackMouse as EventListener);
+   document.addEventListener('mousemove', trackMouse as EventListener);
 });
 
 onUnmounted (()=> {
-    document.removeEventListener('mousemove',trackMouse as EventListener)
+   document.removeEventListener('mousemove',trackMouse as EventListener)
 
 })
 

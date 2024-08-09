@@ -3,6 +3,7 @@ import { writerTimer } from '@/configVariables';
 import type { Imouse } from '@/types/interfaces';
 import {ref, onUnmounted, onMounted, reactive, watch } from 'vue';
 import { dynamicText } from '@/composables/DynamicText';
+import { Player } from '@/composables/Player';
 
 const victoryText:string = "Nelle ombre del cimitero tra lapidi e dolore, Un condannato scappa dal patibolo, sfuggendo al suo terrore. Con il cuore che batte tra nebbie e tetri bagliori, Corre lontano, lontano dagli esecutori..."
 
@@ -29,20 +30,18 @@ const {displayText,endLoading,generateText} = dynamicText();
 
 const clickAppear = ref<boolean>(false);
 const victorySummaryView = ref<boolean>(false);
-const cursorPosition = reactive<Imouse>({
-    x:0,y:0
-});
+const { totalMouseDistance }= Player();
 
 
 const handleSummaryView = ():void => {
     victorySummaryView.value = true
 }
 
-const updateCursorPosition= (event:CustomEvent):void =>  {
+/* const updateCursorPosition= (event:CustomEvent):void =>  {
     //avremmo anche potuto usare un ciclo per fare questa operazione ma mi sembrava performance sprecata per 2 valori che resteranno sempre e solo 2.
     cursorPosition.x = event.detail.position.x;
     cursorPosition.y = event.detail.position.y;
-}
+} */
 
 watch(()=>endLoading.value , (newValue:boolean)=> {
     if(newValue){
@@ -56,11 +55,11 @@ watch(()=>endLoading.value , (newValue:boolean)=> {
 onMounted(() => {
     //writer();
     generateText(victoryText);
-    document.addEventListener('sendSummaryCursorPosition',updateCursorPosition as EventListener)
+   // document.addEventListener('sendSummaryCursorPosition',updateCursorPosition as EventListener)
 })
 
 onUnmounted(()=> {
-    document.removeEventListener('sendSummaryCursorPosition',updateCursorPosition as EventListener);
+    //document.removeEventListener('sendSummaryCursorPosition',updateCursorPosition as EventListener);
 })
 
 
@@ -96,7 +95,7 @@ onUnmounted(()=> {
                 <li><span>Errori commessi: </span> {{ error }}</li>
                 <li><span>Parole consecutive trovate: </span> {{ consecutiveWord }}</li>
                 <li><span>Distanza percorsa col cursore:</span></li>
-                <li>asse X: {{ cursorPosition.x }}px , asse Y: {{ cursorPosition.y }}px</li>
+                <li>asse X: {{ totalMouseDistance.x }}px , asse Y: {{ totalMouseDistance.y }}px</li>
             </ul>
         </div>
         <div>
