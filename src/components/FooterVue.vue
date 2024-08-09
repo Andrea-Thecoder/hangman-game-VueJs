@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { regexSummary } from '@/configVariables';
+import { popUpTimer, regexSummary } from '@/configVariables';
 import {computed, ComputedRef, ref, watch} from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import type {RouteLocationNormalizedLoadedGeneric, Router} from 'vue-router';
@@ -31,7 +31,7 @@ const handlePopUp=(index:number):void => {
       popUpTimeOut.value = setTimeout(() => {
         chisiamoPopUp.value = false;
         popUpTimeOut.value = null;
-      }, 25000);
+      }, popUpTimer);
         
     break;
     default: return;

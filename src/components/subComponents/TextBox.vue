@@ -166,7 +166,7 @@ onMounted(()=> {
                     }">
                     {{ indexCounter.includes(index) ? slot : '_' }}
                     </span>
-                <!--  <span v-if="slot !=' ' && !indexCounter.includes(index)" class="border">_</span>
+                <!--<span v-if="slot !=' ' && !indexCounter.includes(index)" class="border">_</span>
                     <span v-else-if="slot ===' '"> </span>
                     <span v-else class="border"> {{ slot }} </span> -->
                 </li>
@@ -200,7 +200,4 @@ ul {
         }
     }
 }
-
-//primaryTextColor
-
 </style>

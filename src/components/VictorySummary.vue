@@ -1,11 +1,9 @@
 <script setup lang="ts">
-import { writerTimer } from '@/configVariables';
-import type { Imouse } from '@/types/interfaces';
-import {ref, onUnmounted, onMounted, reactive, watch } from 'vue';
+import {ref, onUnmounted, onMounted, watch } from 'vue';
 import { dynamicText } from '@/composables/DynamicText';
 import { Player } from '@/composables/Player';
 
-const victoryText:string = "Nelle ombre del cimitero tra lapidi e dolore, Un condannato scappa dal patibolo, sfuggendo al suo terrore. Con il cuore che batte tra nebbie e tetri bagliori, Corre lontano, lontano dagli esecutori..."
+const victoryText:string = "Nelle ombre del cimitero tra lapidi e dolore, Un condannato scappa dal patibolo, sfuggendo al suo terrore. Con il cuore che batte tra nebbie e tetri bagliori, Corre lontano, dai suoi esecutori..."
 
 const props = defineProps({
     timer:{

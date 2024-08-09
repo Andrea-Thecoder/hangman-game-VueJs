@@ -4,7 +4,7 @@ import HeaderVue from './components/Header.vue';
 import FooterVue from './components/FooterVue.vue';
 import { RouterView, useRoute} from 'vue-router';
 import gsap from 'gsap';
-import { regexSummary } from '@/configVariables';
+import { regexReset, regexSummary } from '@/configVariables';
 import { Player } from './composables/Player';
 import type { Imouse } from '@/types/interfaces';
 import type {RouteLocationNormalizedLoadedGeneric} from 'vue-router';
@@ -31,8 +31,7 @@ const {totalMouseDistance} = Player();
 /* logica del tracking: Dobbiamo tenere traccia di quanti px si muove il mouse ogni olta che l'utente lo spsota. 
 per fare ciò come prima cosa inizialziziamo due oggetti reattivi per tenere traccia del totale del movimento asse X e Y e di quanto si è mosso lo "step" precedente a quello che si muoverà. Quest'ultima ci servirà per calcolare il delta ovvero la differenza tra quanto si è mosso ora e quanto si era mosso prima per trovare il valore assoluto (che deve essere sempre positivo per i nostri fini) esso andrà aggiunto nella pool del totale mosso. Infine i campi che tenevano tracica dello "step" precedente dello spostamento vengono aggiornati inserendo il valore attuale dello spsotamento. */
 const trackMouse = (event:MouseEvent):void => {
-
-    //calcol odel delta per vedere quanti px ha fatto in questo step di movimento
+    //calcolo del delta per vedere quanti px ha fatto in questo step di movimento
     const newX:number = event.clientX - prevMousePosition.x;
     const newY:number = event.clientY - prevMousePosition.y;
 
@@ -42,8 +41,7 @@ const trackMouse = (event:MouseEvent):void => {
 
     //aggiornamento dell'oggetto reattivo che tiene traccia dello "step" precedente di movimento.
     prevMousePosition.x = event.clientX;
-    prevMousePosition.y = event.clientY
-    console.log(totalMouseDistance.x,totalMouseDistance.y)
+    prevMousePosition.y = event.clientY;
 
 }
 
@@ -70,7 +68,6 @@ const fogEffect = ():void => {
             repeat: -1,
             yoyo: true,
             ease: "sine.inOut",
-           // y: "-20px"
         });
 }
 
@@ -85,29 +82,25 @@ gsap.to([header.value, main.value, footer.value], {
 });
 }
 
+const resetCursorTracker= ()=> {
+    totalMouseDistance.x = 0;
+    totalMouseDistance.y = 0;
+    prevMousePosition.x = 0;
+    prevMousePosition.y = 0;
+    document.addEventListener('mousemove', trackMouse);
+}
+
 watch(()=> route.path, (newPath:string)=>{
     if(newPath === '/'){
         fogEffect();
         elementAppear();
-        totalMouseDistance.x = 0;
-        totalMouseDistance.y = 0;
-        prevMousePosition.x = 0;
-        prevMousePosition.y = 0;
-        console.log(totalMouseDistance.x,totalMouseDistance.y)
-        document.addEventListener('mousemove', trackMouse);
-
     }
+    //Un secondo if in quanto il reset del puntatore deve avvenire sia quando si ritorna alla Home, sia quando, sconfitto, il giocatore seleziona nuova partita. Per questo un secondo if che controlla entrambe le possibili vie.
+    if (regexReset.test(newPath))
+        resetCursorTracker();
     //il tracciamento cessa quando si raggiunge la schermata di fine gioco.
-    if(regexSummary.test(newPath)){ 
+    if(regexSummary.test(newPath))
         document.removeEventListener('mousemove',trackMouse)
-         /* setTimeout(() => {
-            document.dispatchEvent(new CustomEvent('sendSummaryCursorPosition', {
-            detail: { position: totalMouseDistance },
-            bubbles: true 
-            }));
-        }, 1000); */
-        
-    }
 } )
 
 
@@ -121,7 +114,6 @@ onMounted(() => {
 
 onUnmounted (()=> {
    document.removeEventListener('mousemove',trackMouse as EventListener)
-
 })
 
 </script>

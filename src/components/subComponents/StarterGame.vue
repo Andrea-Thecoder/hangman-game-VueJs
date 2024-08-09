@@ -1,13 +1,12 @@
 <script setup lang="ts">
-import { ref, onMounted, defineProps , watch } from 'vue';
+import { onMounted, defineProps , watch } from 'vue';
 import { useRouter } from 'vue-router';
 import type {Router} from 'vue-router';
 import { dynamicText } from '@/composables/DynamicText';
 
 
-const starterText:string = "Per me si va nella città dolente, per me si va nell'eterno dolore, per me si va tra la perduta gente. Lasciate ogni speranza voi ch'entrate ...";
+const starterText:string = "Per me si va nella città dolente, per me si va nell'eterno dolore, per me si va tra la perduta gente. Lasciate ogni speranza voi ch'entrate...";
 
-const countChar = ref<number>(0);
 const props = defineProps({
     languages:{
         type: String,

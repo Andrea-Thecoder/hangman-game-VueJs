@@ -7,4 +7,6 @@ export const maxError:number = 6;
 export const dispachTimeBase:number = 1000;
 export const dispachTimeForVictory:number = dispachTimeBase + 5000;
 
+//in ms
 export const writerTimer: number = 70;
+export const popUpTimer: number = 25000 ; 

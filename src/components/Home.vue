@@ -4,9 +4,9 @@ import {ref,computed} from 'vue';
 import type {Ilang} from '../types/interfaces';
 import type {ComputedRef} from 'vue';
 
+const selectedLang = ref<string>("");
 
 const starterValue = ref<boolean>(false) ;
-const selectedLang = ref<string>("");
 const classTouched = ref<boolean>(false);
 
 

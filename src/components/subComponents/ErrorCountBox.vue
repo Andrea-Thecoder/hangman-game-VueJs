@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { watch, onMounted} from 'vue';
 import { useRoute} from 'vue-router';
-import {regexReset, maxError, dispachTimeBase } from '@/configVariables';
+import {regexReset, maxError } from '@/configVariables';
 import type { RouteLocationNormalizedLoadedGeneric } from 'vue-router';
 import { SendParameter } from '@/composables/SummaryParameter';
 import { Player } from '@/composables/Player';

@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import {onMounted,ref,onUnmounted, reactive, watch} from 'vue';
-import { useRoute, useRouter } from 'vue-router';
+import { ref, reactive } from 'vue';
+import { useRoute } from 'vue-router';
 import DefeatSummary from '@/components/DefeatSummary.vue';
 import VictorySummary from '@/components/VictorySummary.vue';
 import type { Isummary } from '@/types/interfaces';
@@ -18,15 +18,6 @@ const summaryValue= reactive<Isummary>({
 
 
 const condition= ref<string>(useRoute().params.condition as string)
-
-
-onMounted(()=> {
-  
-})
-
-onUnmounted(() => {
-   
-});
 
 </script>
 

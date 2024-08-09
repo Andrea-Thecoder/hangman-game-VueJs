@@ -1,12 +1,12 @@
 <script setup lang="ts">
-import { writerTimer } from '@/configVariables';
 import {ref, onMounted, watch} from 'vue';
 import {useRoute} from 'vue-router';
-import type { RouteLocationNormalizedLoadedGeneric } from 'vue-router';
 import { dynamicText } from '@/composables/DynamicText';
+import type { RouteLocationNormalizedLoadedGeneric } from 'vue-router';
+
 const route:RouteLocationNormalizedLoadedGeneric = useRoute();
 
-const defeatText: string = "Nebbie oscure avvolgono il tuo fato, l'ultimo respiro è ormai sfuggito e andato. Nel buio eterno sei ormai confinato,dalle tenebre il tuo nome è cancellato..."
+const defeatText: string = "Nebbie oscure avvolgono il tuo fato, l'ultimo respiro è ormai sfuggito è andato. Nel buio eterno sei ormai confinato,dalle tenebre il tuo nome è cancellato..."
 
 
 const newGameRoute=ref<string>(route.meta.oldPath as string);
@@ -28,8 +28,8 @@ const props = defineProps({
 })
 
 const {displayText, endLoading, generateText} = dynamicText(); 
-const handleSummaryView = ():void => {
 
+const handleSummaryView = ():void => {
     defeatSummaryView.value = true
 }
 
@@ -48,10 +48,6 @@ onMounted(()=> {
 
 
 </script>
-
-
-
-
 
 <template>
     <div class="container" >

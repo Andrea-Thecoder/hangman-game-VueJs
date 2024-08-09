@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import{ref,onMounted, watch, onUnmounted} from 'vue';
 import { useRoute } from 'vue-router';
-import { regexSummary, regexReset, dispachTimeBase } from '@/configVariables';
+import { regexSummary, regexReset } from '@/configVariables';
 import { SendParameter } from '@/composables/SummaryParameter';
 import type { RouteLocationNormalizedLoadedGeneric } from 'vue-router';
 
