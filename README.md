@@ -1,6 +1,6 @@
 # Hangman Game:
 
-My first repository is a web app developed with VueJS 3, the Hangman game. Before this challenge, I had never worked with Vue, so I learned Vue while creating this web app. I completed the task in 18 days, including the time spent studying Vue. It was an incredibly exciting and highly educational experience because, for the first time since completing my Full Stack Developer training course, I had to learn something from scratch on my own. I faced several challenges and was immensely satisfied with how I overcame them.
+This is my first repository developed with VueJS 3, the Hangman game. Before this challenge, I had never worked with Vue, so I learned Vue while creating this web app. I completed the task in 18 days, including the time spent studying Vue. It was an incredibly exciting and highly educational experience because, for the first time since completing my Full Stack Developer training course, I had to learn something from scratch on my own. I faced several challenges and was immensely satisfied with how I overcame them.
 
 One of these challenges was managing the letter guessing and dispatching results (to differentiate between correct and incorrect guesses). I also uploaded my web app to GitHub Pages for the first time, effectively "deploying" it. Managing all the TypeScript and Vite configurations was a significant undertaking, but it was highly instructive.
 
@@ -8,7 +8,7 @@ Below, you will find the procedure to start the project in development mode:
 
 Thank you for your attention.
 
-Nota: Dopo aver notato che il dispatchEvent è stato superato dal Composable (funzionalità introdotta in Vue 3) ho deciso di effettuare il mio primo refactor per eliminare i dispatchEvent ed inserire i Composable.
+Note: After noticing that dispatchEvent has been superseded by Composables (a feature introduced in Vue 3), I decided to perform my first refactoring to eliminate dispatchEvent and integrate Composables.
 
 ## Recommended IDE Setup
 
