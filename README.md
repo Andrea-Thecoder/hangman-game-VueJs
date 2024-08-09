@@ -8,6 +8,8 @@ Below, you will find the procedure to start the project in development mode:
 
 Thank you for your attention.
 
+Nota: Dopo aver notato che il dispatchEvent è stato superato dal Composable (funzionalità introdotta in Vue 3) ho deciso di effettuare il mio primo refactor per eliminare i dispatchEvent ed inserire i Composable.
+
 ## Recommended IDE Setup
 
 [VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
