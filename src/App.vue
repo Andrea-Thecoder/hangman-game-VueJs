@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import {ref,onMounted,watch, reactive, onUnmounted} from 'vue';
-import HeaderVue from './components/Header.vue';
-import FooterVue from './components/FooterVue.vue';
+import HeaderVue from './components/TheHeader.vue';
+import FooterVue from './components/TheFooter.vue';
 import { RouterView, useRoute} from 'vue-router';
 import gsap from 'gsap';
 import { regexReset, regexSummary } from '@/configVariables';
