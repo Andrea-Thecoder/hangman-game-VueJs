@@ -8,10 +8,14 @@
   color: var.$primaryTextColor;
 }
 
+html{
+  min-height: 100vh;
+}
+
 body {
   @include mix.backgroundSet(var.$bgUrl);
   max-width: 1920px;
-  height: 100vh;
+  min-height: 100vh;
   margin: 0 auto;
 }
 
@@ -69,6 +73,12 @@ ul {
 @media (max-width: var.$maxWidthResp) {
   *{
     font-size: 12px !important;
+  }
+}
+
+@media (max-width: var.$smallMaxWidthResp) {
+  *{
+    font-size: 9px !important;
   }
 }
 
